@@ -1,0 +1,19 @@
+{
+    "name": "flori/mini-social-network",
+    "description": "Mini réseau social en PHP POO",
+    "type": "project",
+    "require": {
+        "phpmailer/phpmailer": "^6.9"
+    },
+    "autoload": {
+        "psr-4": {
+            "Flori\\MiniSocialNetwork\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Floxde99",
+            "email": "florian.fchr@hotmail.com"
+        }
+    ]
+}
