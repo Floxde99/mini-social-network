@@ -15,11 +15,13 @@
       <a href="/" class="text-2xl font-bold text-blue-600">MiniSocial</a>
       <!-- Liens de navigation -->
       <ul class="flex space-x-4">
-        <li><a href="/" class="hover:text-blue-800">Accueil</a></li>
+        
         <?php if (!empty($_SESSION['user'])): ?>
+          <li><a href="/main" class="hover:text-blue-800">Accueil</a></li>
           <li><a href="/posts/create" class="hover:text-blue-800">Créer un Post</a></li>
           <li><a href="/logout" class="hover:text-red-600">Déconnexion</a></li>
         <?php else: ?>
+          <li><a href="/" class="hover:text-blue-800">Accueil</a></li>
           <li><a href="/login" class="hover:text-blue-800">Connexion</a></li>
           <li><a href="/register" class="hover:text-blue-800">Inscription</a></li>
         <?php endif; ?>

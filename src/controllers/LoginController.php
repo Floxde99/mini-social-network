@@ -11,7 +11,6 @@ class LoginController extends Controller
     public function index() 
     {
         if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-            // Vérifier si un cookie de connexion existe
             if (isset($_COOKIE['remember_me']) && !isset($_SESSION['user'])) {
                 $cookieData = json_decode($_COOKIE['remember_me'], true);
                 if ($cookieData && isset($cookieData['email']) && isset($cookieData['token'])) {
@@ -41,12 +40,10 @@ class LoginController extends Controller
                 $password = $_POST['password'] ?? '';
                 $remember = isset($_POST['remember_me']);
 
-                // Validation
                 if (empty($email) || empty($password)) {
                     throw new Exception('Veuillez remplir tous les champs');
                 }
 
-                // Vérification de l'utilisateur
                 $stmt = $this->db->prepare("SELECT * FROM users WHERE mail = ? AND email_verified = TRUE");
                 $stmt->execute([$email]);
                 $user = $stmt->fetch();
@@ -55,25 +52,20 @@ class LoginController extends Controller
                     throw new Exception('Email ou mot de passe incorrect');
                 }
 
-                // Création de la session
                 $_SESSION['user'] = [
                     'iduseur' => $user['iduseur'],
                     'username' => $user['username'],
                     'email' => $user['mail']
                 ];
 
-                // Gérer le "Se souvenir de moi"
                 if ($remember) {
-                    // Créer un token unique pour le cookie
                     $token = bin2hex(random_bytes(32));
                     
-                    // Préparer les données du cookie
                     $cookieData = [
                         'email' => $user['mail'],
                         'token' => $token
                     ];
                     
-                    // Définir le cookie pour une semaine (7 jours)
                     setcookie(
                         'remember_me',
                         json_encode($cookieData),
@@ -87,7 +79,6 @@ class LoginController extends Controller
                     );
                 }
 
-                // Redirection vers la page principale
                 header('Location: /main');
                 exit;
 
