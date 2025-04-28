@@ -16,7 +16,7 @@ class ConfirmController extends Controller
         if ($token) {
             try {
                 $stmt = $this->db->prepare("
-                    SELECT id 
+                    SELECT iduseur 
                     FROM users 
                     WHERE email_token = ? 
                     AND email_verified = FALSE
@@ -30,12 +30,12 @@ class ConfirmController extends Controller
                     $updateStmt = $this->db->prepare("
                         UPDATE users 
                         SET email_verified = TRUE,
-                            email_verified_at = CURRENT_TIMESTAMP,
+                            email_verified_at = NOW(),
                             email_token = NULL
-                        WHERE id = ?
+                        WHERE iduseur = ?
                     ");
                     
-                    $updateStmt->execute([$user['id']]);
+                    $updateStmt->execute([$user['iduseur']]);
                     $_SESSION['success'] = 'Votre compte a été vérifié avec succès ! Vous pouvez maintenant vous connecter.';
                 } else {
                     $_SESSION['errors'] = ['Le lien de confirmation est invalide ou a expiré'];
@@ -45,7 +45,6 @@ class ConfirmController extends Controller
             }
         }
         
-        // Afficher la page de confirmation
         require '../view/confirm.php';
     }
 }

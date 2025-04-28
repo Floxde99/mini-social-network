@@ -65,7 +65,7 @@ class RegisterController extends Controller
                 $this->emailService->sendConfirmationEmail($email, $username, $token);
 
                 $_SESSION['success'] = "Inscription réussie ! Veuillez vérifier vos emails pour confirmer votre compte.";
-                header('Location: /confirm');
+                header('Location: /retour-mail');  // Change /confirm to /retour-mail
                 exit;
 
             } catch (Exception $e) {

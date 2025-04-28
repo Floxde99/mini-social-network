@@ -28,16 +28,15 @@ class EmailService {
     public function sendConfirmationEmail($email, $username, $token) {
         try {
             $this->mailer->clearAddresses();
-            $this->mailer->setFrom('florian.fchr99@gmail.com', 'Mini Social Network');
+            $this->mailer->setFrom('florian.fchr99@gmail.com', 'ClicnClac');
             $this->mailer->addAddress($email, $username);
             $this->mailer->isHTML(true);
             $this->mailer->Subject = 'Confirmez votre inscription';
 
-            // Modifié pour utiliser /confirm avec le token en paramètre
             $confirmationLink = "http://localhost:8000/retour-mail?token=" . $token;
 
             $this->mailer->Body = "
-                <h2>Bienvenue sur Mini Social Network !</h2>
+                <h2>Bienvenue sur ClicnClac !</h2>
                 <p>Bonjour {$username},</p>
                 <p>Merci pour votre inscription. Pour activer votre compte, veuillez cliquer sur le lien ci-dessous :</p>
                 <p><a href='{$confirmationLink}' style='padding: 10px 20px; background-color: #4CAF50; color: white; text-decoration: none; border-radius: 5px;'>
@@ -49,7 +48,7 @@ class EmailService {
             ";
 
             $this->mailer->AltBody = "
-                Bienvenue sur Mini Social Network !
+                Bienvenue sur ClicnClac !
                 
                 Bonjour {$username},
                 
@@ -59,6 +58,22 @@ class EmailService {
                 
                 Ce lien expire dans 24 heures.
             ";
+
+            return $this->mailer->send();
+        } catch (Exception $e) {
+            throw new Exception("Erreur lors de l'envoi de l'email : " . $e->getMessage());
+        }
+    }
+
+    public function sendContactEmail($senderEmail, $senderName, $subject, $htmlContent) {
+        try {
+            $this->mailer->clearAddresses();
+            $this->mailer->setFrom($senderEmail, $senderName);
+            $this->mailer->addAddress('florian.fchr99@gmail.com', 'ClicnClac Admin');
+            $this->mailer->isHTML(true);
+            $this->mailer->Subject = 'Contact - ' . $subject;
+            $this->mailer->Body = $htmlContent;
+            $this->mailer->AltBody = strip_tags($htmlContent);
 
             return $this->mailer->send();
         } catch (Exception $e) {

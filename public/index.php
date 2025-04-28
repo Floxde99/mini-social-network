@@ -37,6 +37,11 @@ require_once('../src/controllers/CreatePostController.php');
 require_once('../src/controllers/EditPostController.php');
 require_once('../src/controllers/DeletePostController.php');
 
+// Autres Controllers
+require_once('../src/controllers/AboutController.php');
+require_once('../src/controllers/PrivacyController.php');
+require_once('../src/controllers/ContactController.php');
+
 // Initialisation du router
 $router = new Router();
 $router->start();
