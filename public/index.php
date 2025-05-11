@@ -1,7 +1,11 @@
 <?php
 session_start();
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
+// Définir le chemin de base
+define('BASE_PATH', dirname(__DIR__));
+
+// Désactiver l'affichage des erreurs en production
+error_reporting(0);
+ini_set('display_errors', 0);
 
 // Configuration et base de données
 require_once('../core/Router.php');
